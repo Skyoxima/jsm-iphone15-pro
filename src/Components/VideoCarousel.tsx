@@ -151,6 +151,7 @@ export default function VideoCarousel() {
 
   return (
     <>
+      {/* The video carousel */}
       <div className="flex items-center">
         {hightlightsSlides.map((list, index) => (
           <div key={list.id} className="slider pr-10 sm:pr-20">
@@ -176,7 +177,8 @@ export default function VideoCarousel() {
           </div>
         ))}
       </div>
-
+        
+      {/*>> Progress bar and control button */}
       <div className="relative flex-center mt-10">
         <div className="flex-center py-5 px-7 bg-zinc-800 backdrop-blur rounded-full">
           {videoRef.current.map((_, i) => (
