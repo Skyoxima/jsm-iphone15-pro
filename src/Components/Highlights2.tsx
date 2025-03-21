@@ -1,20 +1,21 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { rightImg, watchImg } from "../utils";
-import VideoCarousel from "./VideoCarousel.tsx";
+import VideoCarousel2 from "./VideoCarousel2";
 
-function Highlights() {
+function Highlights2() {
   useGSAP(() => {
     gsap.to('#title', {
       opacity: 1, y: 0
     })
     gsap.to('.link', {
-      opacity: 1, y: 0, delay: 0.25, stagger: 0.25
+      opacity: 1, y: 0, duration: 1, stagger: 0.25
     })
   }, []);
+
   return (
-    <section id="highlights" className="w-screen overflow-hidden h-full common-padding bg-zinc-900">
-      <div className="screen-max-width">
+    <section id="highlights" className="w-screen h-full common-padding bg-zinc-900 overflow-hidden">
+      <div id="section-content" className="">
         <div className="mb-12 w-full md:flex items-end justify-between">
           <h1 id="title" className="section-heading">Get the highlights.</h1>
           <div className="flex flex-wrap items-end gap-5">
@@ -28,10 +29,10 @@ function Highlights() {
             </p>
           </div>
         </div>
-        <VideoCarousel />
+        <VideoCarousel2 />
       </div>
     </section>
   )
 }
 
-export default Highlights
+export default Highlights2
