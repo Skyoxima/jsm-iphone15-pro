@@ -1,7 +1,8 @@
 import Navbar from "./components/Navbar"
 import Hero from "./components/Hero"
-import Highlights from "./components/Highlights"
 import Highlights2 from "./components/Highlights2"
+import Model from "./components/Model"
+
 
 export default function App() {
   return (
@@ -9,7 +10,7 @@ export default function App() {
       <Navbar />
       <Hero />
       <Highlights2 />
-      {/* <Highlights /> */}
+      <Model />
     </main>
   )
 }

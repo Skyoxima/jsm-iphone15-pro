@@ -15,8 +15,8 @@ function Highlights2() {
 
   return (
     <section id="highlights" className="w-screen h-full common-padding bg-zinc-900 overflow-hidden">
-      <div id="section-content" className="">
-        <div className="mb-12 w-full md:flex items-end justify-between">
+      <div id="section-content-hlts" className="">
+        <div className="mb-12 w-full md:flex items-end justify-between screen-max-width">
           <h1 id="title" className="section-heading">Get the highlights.</h1>
           <div className="flex flex-wrap items-end gap-5">
             <p className="link">
