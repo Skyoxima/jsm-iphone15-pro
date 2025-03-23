@@ -1,7 +1,7 @@
 import { Html, OrbitControls, PerspectiveCamera, View } from "@react-three/drei"
 import Lights from "./Lights"
 import { SetStateAction, Suspense, useRef, Dispatch } from "react"
-import IPhone from "./iphone"
+import IPhone from "./IPhone"
 import * as THREE from 'three';
 import Loader from "./Loader"
 import { modelType } from "./Model";

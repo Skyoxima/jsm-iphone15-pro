@@ -217,8 +217,9 @@ export default function IPhone(props: IPhoneProps) {
         receiveShadow
         geometry={nodes.xXDHkMplTIDAXLN.geometry}
         material={materials.pIJKfZsazmcpEiU}
-        scale={0.01}
-      />
+        scale={0.01}>
+          <meshStandardMaterial roughness={1} map={texture}/>
+      </mesh>
       <mesh
         castShadow
         receiveShadow

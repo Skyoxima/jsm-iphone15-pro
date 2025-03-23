@@ -21,7 +21,7 @@ function Model() {
       opacity: 1,
       y: 0
     })
-  })
+  }, []);
 
   const [size, setSize] = useState<string>('small');
   const [model, setModel] = useState<modelType>({
