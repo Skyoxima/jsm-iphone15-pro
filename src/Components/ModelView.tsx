@@ -1,17 +1,18 @@
-import { Html, OrbitControls, PerspectiveCamera, View } from "@react-three/drei"
+import { PerspectiveCamera, View, OrbitControls } from "@react-three/drei"
 import Lights from "./Lights"
-import { SetStateAction, Suspense, useRef, Dispatch } from "react"
+import React, { SetStateAction, Suspense, Dispatch } from "react"
 import IPhone from "./IPhone"
 import * as THREE from 'three';
 import Loader from "./Loader"
 import { modelType } from "./Model";
+import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 
 interface ModelViewPropTypes {
   index: 1 | 2
-  groupRef: any
+  groupRef: React.RefObject<THREE.Group<THREE.Object3DEventMap>>
   gsapType: string
-  controlRef: any
+  controlRef: React.RefObject<OrbitControlsImpl | null>
   setRotState: Dispatch<SetStateAction<number>>
   size: string
   model: modelType
@@ -36,7 +37,7 @@ function ModelView({index, groupRef, gsapType, controlRef, setRotState, size, mo
         enablePan={false}
         rotateSpeed={0.4}
         target={new THREE.Vector3(0, 0, 0)}
-        onEnd={() => setRotState(controlRef.current.getAzimuthalAngle())}
+        onEnd={() => setRotState(controlRef.current!.getAzimuthalAngle())}
       />
 
       <group ref={groupRef} name={`${index === 1 ? 'small' : 'large'}`} position={[0, 0, 0]}>

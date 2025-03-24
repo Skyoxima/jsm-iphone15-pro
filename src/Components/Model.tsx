@@ -1,13 +1,14 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import ModelView from "./ModelView";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { yellowImg } from "../utils";
 import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
 import { models, sizes } from "../constants";
-
+import { animateWithGSAPTimeline } from "../utils/animations";
+import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 export interface modelType {
   title: string
@@ -33,8 +34,8 @@ function Model() {
 
   // camera per size, 6.1", 6.7"'
   // TODO: GIVE TYPES
-  const cameraControlSmall = useRef<any>(null);
-  const cameraControlLarge = useRef<any>(null);
+  const cameraControlSmall = useRef<OrbitControlsImpl>(null);
+  const cameraControlLarge = useRef<OrbitControlsImpl>(null);
 
   // current model control
   const small = useRef(new THREE.Group());
@@ -44,6 +45,18 @@ function Model() {
   const [smallRot, setSmallRot] = useState(0);
   const [largeRot, setLargeRot] = useState(0);
 
+  const tl = gsap.timeline();
+
+  useEffect(() => {
+    if(size === 'large') {
+      animateWithGSAPTimeline(tl, small, smallRot, '#view1', '#view2');
+    } else {
+      animateWithGSAPTimeline(tl, large, largeRot, '#view2', '#view1');
+
+    }
+  
+  }, [size])
+  
 
   return (
     <section className="common-padding">
