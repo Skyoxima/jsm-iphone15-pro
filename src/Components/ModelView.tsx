@@ -43,7 +43,7 @@ function ModelView({index, groupRef, gsapType, controlRef, setRotState, size, mo
       <group ref={groupRef} name={`${index === 1 ? 'small' : 'large'}`} position={[0, 0, 0]}>
         <Suspense fallback={<Loader />}>
           <IPhone
-            scale={size === 'small' ? [15, 15, 15] : [17, 17, 17]}
+            scale={index === 1 ? [15, 15, 15] : [17, 17, 17]}
             model={model}
             size={size}
           />

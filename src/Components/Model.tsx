@@ -45,15 +45,14 @@ function Model() {
   const [smallRot, setSmallRot] = useState(0);
   const [largeRot, setLargeRot] = useState(0);
 
+  // animating switching between the sizes
   const tl = gsap.timeline();
-
   useEffect(() => {
-    if(size === 'large') {
-      animateWithGSAPTimeline(tl, small, smallRot, '#view1', '#view2');
-    } else {
-      animateWithGSAPTimeline(tl, large, largeRot, '#view2', '#view1');
-
-    }
+    if(size === 'large')
+      animateWithGSAPTimeline(tl, small, smallRot, '#view1', '#view2', {transform: 'translateX(-100%)'});
+    
+    if(size === 'small')
+      animateWithGSAPTimeline(tl, large, largeRot, '#view2', '#view1', {transform: 'translateX(0)'});
   
   }, [size])
   
@@ -61,16 +60,16 @@ function Model() {
   return (
     <section className="common-padding">
       <div id="section-content-model" className="">
-        <div id="heading" className="section-heading screen-max-width">
+        <h1 id="heading" className="section-heading screen-max-width">
           Take a closer look.
-        </div>
+        </h1>
 
         <div className="flex flex-col mt-5 items-center">
           <div className="relative w-full h-[75vh] md:h-[90vh] overflow-hidden">
             <ModelView 
               index={1}
               groupRef={small}
-              gsapType={'view1'}
+              gsapType="view1"
               controlRef={cameraControlSmall}
               setRotState={setSmallRot}
               model={model}
@@ -79,7 +78,7 @@ function Model() {
             <ModelView 
               index={2}
               groupRef={large}
-              gsapType={'view2'}
+              gsapType="view2"
               controlRef={cameraControlLarge}
               setRotState={setLargeRot}
               model={model}
@@ -88,9 +87,10 @@ function Model() {
 
             <Canvas
               id="phone3D"
-              className="fixed! w-full h-full inset-0 overflow-hidden"
-              // style={{top: 0, left: 0, right: 0, bottom: 0}}
-              eventSource={document.getElementById('root')!}>
+              className="fixed! w-full h-full top-0 left-0 bottom-0 right-0 overflow-hidden"
+              style={{position: "fixed", top: 0, left: 0, bottom: 0, right: 0, overflow: "hidden"}}
+              eventSource={document.getElementById('root')!}
+            >
               <View.Port />
             </Canvas>
           </div>
@@ -102,19 +102,19 @@ function Model() {
 
             <div className="flex-center">
               <ul className="color-container">
-                {models.map((model, index) => (
+                {models.map((item, index) => (
                   <li 
                   key={index} 
-                  className="w-6 h-6 rounded-full mx-2 cursor-pointer" 
-                  style={{backgroundColor: model.color[0]}}
-                  onClick={() => setModel(model)}
+                  className={`relative w-6 h-6 rounded-full mx-2 cursor-pointer`} 
+                  style={{backgroundColor: item.color[0]}}
+                  onClick={() => setModel(item)}
                   >    {/*! I think style is used here for dynamic application of colors that are coming from another JS file... other way would be to use @apply and custom predefined classes like how I'd done in Epoque Calendars! */}
                   </li>
                 ))}
               </ul>
 
               <button className="size-btn-container cursor-pointer">
-                {sizes.map(({ label, value }, index) => (
+                {sizes.map(({ label, value }, _) => (
                   <span 
                   key={label}
                   className="size-btn"

@@ -121,3 +121,29 @@ canvas {
   .g_fadeIn {
     @apply opacity-0 translate-y-[100px]
   }
+
+  .before-3D-color-select {
+    @apply before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 before:w-[150%] before:h-[150%] before:border-1 before:rounded-full
+  }
+
+  .border-color-\[\#8F8A81\] {
+    &::before {
+      border-color: #8F8A81
+    }
+  }
+  .border-color-\[\#53596E\] {
+    &::before {
+      border-color: #53596E
+    }
+  }
+  .border-color-\[\#C9C8C2\] {
+    &::before {
+      border-color: #C9C8C2
+    }
+  }
+  .border-color-\[\#454749\] {
+    &::before {
+      border-color: #454749
+    }
+  }
+  
