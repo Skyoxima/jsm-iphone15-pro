@@ -5,10 +5,13 @@ import Model from "./components/Model"
 import Features from "./components/Features"
 import Chip from "./components/Chip"
 import Footer from "./components/Footer"
+import SmoothScroll from "./components/SmoothScroll"
+
 
 export default function App() {
   return (
     <main className="bg-black">
+      <SmoothScroll />
       <Navbar />
       <Hero />
       <Highlights2 />
