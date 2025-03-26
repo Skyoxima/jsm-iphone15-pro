@@ -95,11 +95,11 @@ canvas {
   }
 
   .hiw-video {
-    @apply absolute w-[95%] h-[90%] rounded-[56px] overflow-hidden
+    @apply absolute w-[95%] h-[90%] aspect-[2.047] rounded-[2.5vw]
   }
 
   .hiw-text-container {
-    @apply flex md:flex-row flex-col justify-between items-start gap-24
+    @apply flex md:flex-row flex-col justify-between items-start gap-16 md:gap-24
   }
 
   .hiw-text {
@@ -114,16 +114,12 @@ canvas {
     @apply relative w-[88vw] sm:w-[70vw] h-[35vh] sm:h-[50vh] md:h-[70vh] 
   }
   
-  /* .screen-max-width-substitute {
-    @apply relative w-[88vw] sm:w-[70vw] h-[35vh] sm:h-[50vh] md:h-[70vh]
-  } */
-
   .g_fadeIn {
     @apply opacity-0 translate-y-[100px]
   }
 
   .before-3D-color-select {
-    @apply before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 before:w-[150%] before:h-[150%] before:border-1 before:rounded-full
+    @apply before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 before:w-[125%] before:h-[125%] before:border-2 before:rounded-full
   }
 
   .border-color-\[\#8F8A81\] {
