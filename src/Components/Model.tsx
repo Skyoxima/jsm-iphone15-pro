@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
 import { models, sizes } from "../constants";
-import { animateWithGSAPTimeline } from "../utils/animations";
+import { animateScrollWithGSAP, animateWithGSAPTimeline } from "../utils/animations";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 export interface modelType {
@@ -18,7 +18,7 @@ export interface modelType {
 
 function Model() {
   useGSAP(() => {
-    gsap.to('#heading', {
+    animateScrollWithGSAP('#heading', {
       opacity: 1,
       y: 0
     })
