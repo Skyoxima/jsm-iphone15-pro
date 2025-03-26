@@ -3,7 +3,8 @@
   "compilerOptions": {
     "paths": {
       "./src/*": ["./src/*"],
-      "./src/components/*": ["./src/components/*"]
+      "./src/components/*": ["./src/components/*"],
+      "./components/*": ["./src/components/*"]
     }
   },
   "references": [
