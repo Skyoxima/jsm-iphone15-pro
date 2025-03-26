@@ -64,7 +64,7 @@ export default function VideoCarousel() {
     }
   }, [startPlay, videoID, isPlaying, loadedData])
 
-  const handleLoadedMetadata = (index: number, event: React.SyntheticEvent<HTMLVideoElement, Event>) => setLoadedData((prev) => [...prev, event])
+  const handleLoadedMetadata = (_: number, event: React.SyntheticEvent<HTMLVideoElement, Event>) => setLoadedData((prev) => [...prev, event])
 
 
   //>> control the progress animation for the current video in the carousel
