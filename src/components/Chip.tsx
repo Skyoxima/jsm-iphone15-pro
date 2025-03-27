@@ -35,7 +35,7 @@ function Chip() {
     <section className="common-padding" id="chip-section">
       <div className="screen-max-width">
         {/* Chip Img */}
-        <div id="chip" className="w-full flex-center my-20">
+        <div id="chip" className="w-full flex-center my-20 overflow-hidden">
           <img src={chipImg} alt="A17 Bionic Pro" width={180} height={180} />
         </div>
 

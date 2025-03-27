@@ -24,15 +24,15 @@ function Footer() {
         <div className="bg-neutral-700 my-5 h-px w-full" />
 
         <div className="flex flex-col md:flex-row md:items-center justify-between">
-          <p className="font-semibold text-zinc-400 text-xs">
+          <p className="font-semibold text-zinc-400 text-xs px-2">
             Copyright © 2024 Apple Inc. All rights reserved.
           </p>
-          <div className="flex">
+          <div className="flex max-md:mt-4">
             {footerLinks.map((link, i) => (
               <p 
                 key={i} 
-                className={`relative font-semibold text-xs text-zinc-400`}>
-                  {link}{i !== footerLinks.length - 1 && (<span className="mx-2">|</span>)}
+                className={`relative font-semibold text-2xs sm:text-xs text-zinc-400 px-2 ${i !== footerLinks.length - 1 && 'footer-divide-right'}`}>
+                  {link}
               </p>
             ))}
           </div>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -6,7 +6,18 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const SmoothScroll = () => {
+  const [mobile, setMobile] = useState<boolean>(false);
+  
   useEffect(() => {
+    setMobile(window.innerWidth <= 640);
+    
+    window.addEventListener("resize", () => setMobile(window.innerWidth <= 640));
+    return () => window.removeEventListener("resize", () => setMobile(window.innerWidth <= 640));
+  }, []);
+
+  useEffect(() => {
+    if(mobile) return;
+
     const lenis = new Lenis({
       lerp: 0.1,
     });
@@ -24,7 +35,7 @@ const SmoothScroll = () => {
       gsap.ticker.remove((time) => lenis.raf(time * 1000));
       lenis.destroy();
     };
-  }, []);
+  }, [mobile]);
 
   return null;
 };
