@@ -11,13 +11,13 @@ import SmoothScroll from "./components/SmoothScroll.tsx"
 export default function App() {
   return (
     <main className="bg-black">
-      <SmoothScroll />
-      <Navbar />
-      <Hero />
+      {/* <SmoothScroll /> */}
+      {/* <Navbar /> */}
+      {/* <Hero /> */}
       <Highlights2 />
-      <Model />
-      <Features />
-      <Chip />
+      {/* <Model /> */}
+      {/* <Features /> */}
+      {/* <Chip /> */}
       <Footer />
     </main>
   )

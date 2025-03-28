@@ -15,6 +15,12 @@ interface stateType {
   isLastVideo: boolean
 }
 
+const smallUpVidVw = 70;
+const defaultVidVw = 88;
+
+const vidPaddingL = 0;
+const vidPaddingR = 0;
+
 export default function VideoCarousel() {
   const videoRef = useRef<HTMLVideoElement[]>([]);
   const videoSpanRef = useRef<HTMLSpanElement[]>([]);
@@ -32,7 +38,8 @@ export default function VideoCarousel() {
   //>> To make the videos start playing after they come into the viewport
   useGSAP(() => {
     gsap.to('#carousel-tape', {
-      translateX: `${(window.innerWidth < 640 ? -96 : -78) * (videoID)}vw`,
+      xPercent: -25 * videoID,
+      // translateX: `${(window.innerWidth >= 640 ? -smallUpVidVw : -defaultVidVw) * (videoID)}vw`,
       duration: 1,
       ease: 'power2.inOut'
     })
@@ -54,7 +61,7 @@ export default function VideoCarousel() {
 
   //>> control the scrolling and continuous playing of the videos in the carousel
   useEffect(() => {
-    // carousel autoplay has reached its end
+    //* data has been loaded completely? Start playing for the first time
     if (loadedData.length > 3) {
       if (!isPlaying) {
         videoRef.current[videoID].pause();
@@ -66,8 +73,7 @@ export default function VideoCarousel() {
 
   const handleLoadedMetadata = (_: number, event: React.SyntheticEvent<HTMLVideoElement, Event>) => setLoadedData((prev) => [...prev, event])
 
-
-  //>> control the progress animation for the current video in the carousel
+  //>> control the progress animation for the current video's corr. span in the pill below
   useEffect(() => {
     let currentProgess = 0;
     let innerSpan = videoInnerSpanRef.current;
@@ -75,16 +81,19 @@ export default function VideoCarousel() {
     if (innerSpan[videoID]) {
       let anim = gsap.to(innerSpan[videoID], {
         onUpdate: () => {
-          const progress = Math.ceil(anim.progress() * 100);  //? maybe multiply outside
-
+          const progress = Math.ceil(anim.progress() * 100);
+          
+          //? I'm suspecting that this if check is put in here to avoid unnecessary updation per frame, only update per second
+          // console.log(`${videoID}, Progress: ${progress} CurrProgress: ${currentProgess}`);
           if (progress !== currentProgess) {
             currentProgess = progress;
-
-            //* I've kept this different than the original video for consistency
+            
+            //* max width for progressing (grey), I've kept this different than the original video for consistency
             gsap.to(videoSpanRef.current[videoID], {
               width: window.innerWidth < 480 ? '2rem' : '3rem',
             })
-
+            
+            // the span that progress (white)
             gsap.to(innerSpan[videoID], {
               width: `${currentProgess}%`,
               backgroundColor: 'white'
@@ -92,6 +101,7 @@ export default function VideoCarousel() {
           }
         },
 
+        //* when "progress" = 1 (which are setting manually ↓↓), reset the span back to defaults
         onComplete: () => {
           if (isPlaying) {
             gsap.to(videoSpanRef.current[videoID], {
@@ -108,12 +118,14 @@ export default function VideoCarousel() {
         anim.restart();
       }
 
+      //! here the duration of the video is synchronized with the animation duration
       const animUpdate = () => {
         anim.progress(
           videoRef.current[videoID].currentTime / videoRef.current[videoID].duration
         );
       }
 
+      //* GSAP ticker is like frame rate, the passed function within 'add' is called every frame
       if (isPlaying) {
         gsap.ticker.add(animUpdate);
       } else {
@@ -152,37 +164,39 @@ export default function VideoCarousel() {
   return (
     <>
       {/* The video carousel */}
-      <div id='carousel-tape' className="relative -left-[4vw] sm:left-[8vw] flex w-max justify-center">
+      <div id='carousel-tape' className="relative flex w-max">
         {hightlightsSlides.map((list, index) => (
-          <div key={index} className="padded-video-container px-[4vw]">
-            <div key={index} className={`video-container flex-center shrink-0 bg-black rounded-3xl overflow-hidden`}>
-              <video
-                className={`video pointer-events-none`}
-                preload="auto" 
-                playsInline={true}
-                muted
-                ref={(el: HTMLVideoElement) => { videoRef.current[index] = el }}
-                onPlay={() => { setVideo((prev) => ({ ...prev, isPlaying: true })) }}
-                onLoadedMetadata={(e) => handleLoadedMetadata(index, e)}
-                onEnded={() => { index !== 3 ? handleProcess('videoEnd', index) : handleProcess('videoLast') }}>
-                <source src={list.video} type="video/mp4" />
-              </video>
+          <div key={index} className="padded-video-container outline-green-400 outline-1">
+            <div className="w-[calc(100vw-40px)] sm:w-[calc(100vw-80px)] flex justify-center">
+              <div key={index} className={`video-container flex-center shrink-0 bg-black rounded-3xl overflow-hidden`}>
+                <video
+                  className={`video pointer-events-none`}
+                  preload="auto" 
+                  playsInline={true}
+                  muted
+                  ref={(el: HTMLVideoElement) => { videoRef.current[index] = el }}
+                  onPlay={() => { setVideo((prev) => ({ ...prev, isPlaying: true })) }}
+                  onLoadedMetadata={(e) => handleLoadedMetadata(index, e)}
+                  onEnded={() => { index !== 3 ? handleProcess('videoEnd', index) : handleProcess('videoLast') }}>
+                  <source src={list.video} type="video/mp4" />
+                </video>
 
-              <div className="absolute top-12 left-[5%] z-10">
-                {list.textLists.map((text) => (
-                  <p key={text} className="text-lg md:text-2xl font-medium">
-                    {text}
-                  </p>
-                ))}
+                <div className="absolute top-12 left-[5%] z-10">
+                  {list.textLists.map((text) => (
+                    <p key={text} className="text-lg md:text-2xl font-medium">
+                      {text}
+                    </p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/*>> Progress bar and control button */}
-      <div className="relative flex-center mt-10">
-        <div className="flex-center py-5 px-7 bg-zinc-800 backdrop-blur rounded-full">
+      {/*>> Progress bar pill */}
+      <div className="relative flex justify-center mt-10">
+        <div className="flex-center py-5 px-7 bg-zinc-800 backdrop-blur rounded-full outline-1 outline-blue-500">
           {videoRef.current.map((_, i) => (
             <span key={i} ref={(el: HTMLSpanElement) => { videoSpanRef.current[i] = el }}
               className="relative size-3 mx-2 bg-zinc-300 rounded-full cursor-pointer">
@@ -190,8 +204,8 @@ export default function VideoCarousel() {
             </span>
           ))}
         </div>
-
-        <button className="control-btn cursor-pointer relative"
+        {/* pause-play-restart */}
+        <button className="control-btn cursor-pointer relative outline-1 outline-blue-500"
           onClick={
             isLastVideo ? () => handleProcess('videoReset')
             : isPlaying ? () => handleProcess('pause')
