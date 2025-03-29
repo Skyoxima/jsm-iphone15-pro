@@ -164,30 +164,28 @@ export default function VideoCarousel() {
   return (
     <>
       {/* The video carousel */}
-      <div id='carousel-tape' className="relative flex w-max">
+      <div id='carousel-tape' className="relative flex w-max left-1/2 -translate-x-[12.5%]">
         {hightlightsSlides.map((list, index) => (
-          <div key={index} className="padded-video-container outline-green-400 outline-1">
-            <div className="w-[calc(100vw-40px)] sm:w-[calc(100vw-80px)] flex justify-center">
-              <div key={index} className={`video-container flex-center shrink-0 bg-black rounded-3xl overflow-hidden`}>
-                <video
-                  className={`video pointer-events-none`}
-                  preload="auto" 
-                  playsInline={true}
-                  muted
-                  ref={(el: HTMLVideoElement) => { videoRef.current[index] = el }}
-                  onPlay={() => { setVideo((prev) => ({ ...prev, isPlaying: true })) }}
-                  onLoadedMetadata={(e) => handleLoadedMetadata(index, e)}
-                  onEnded={() => { index !== 3 ? handleProcess('videoEnd', index) : handleProcess('videoLast') }}>
-                  <source src={list.video} type="video/mp4" />
-                </video>
+          <div key={index} className="padded-video-container  px-4">
+            <div key={index} className={`video-container flex-center shrink-0 bg-black rounded-3xl overflow-hidden`}>
+              <video
+                className={`video pointer-events-none`}
+                preload="auto" 
+                playsInline={true}
+                muted
+                ref={(el: HTMLVideoElement) => { videoRef.current[index] = el }}
+                onPlay={() => { setVideo((prev) => ({ ...prev, isPlaying: true })) }}
+                onLoadedMetadata={(e) => handleLoadedMetadata(index, e)}
+                onEnded={() => { index !== 3 ? handleProcess('videoEnd', index) : handleProcess('videoLast') }}>
+                <source src={list.video} type="video/mp4" />
+              </video>
 
-                <div className="absolute top-12 left-[5%] z-10">
-                  {list.textLists.map((text) => (
-                    <p key={text} className="text-lg md:text-2xl font-medium">
-                      {text}
-                    </p>
-                  ))}
-                </div>
+              <div className="absolute top-12 left-[5%] z-10">
+                {list.textLists.map((text) => (
+                  <p key={text} className="text-lg md:text-2xl font-medium">
+                    {text}
+                  </p>
+                ))}
               </div>
             </div>
           </div>
@@ -196,7 +194,7 @@ export default function VideoCarousel() {
 
       {/*>> Progress bar pill */}
       <div className="relative flex justify-center mt-10">
-        <div className="flex-center py-5 px-7 bg-zinc-800 backdrop-blur rounded-full outline-1 outline-blue-500">
+        <div className="flex-center py-5 px-7 bg-zinc-800 backdrop-blur rounded-full">
           {videoRef.current.map((_, i) => (
             <span key={i} ref={(el: HTMLSpanElement) => { videoSpanRef.current[i] = el }}
               className="relative size-3 mx-2 bg-zinc-300 rounded-full cursor-pointer">
@@ -205,7 +203,7 @@ export default function VideoCarousel() {
           ))}
         </div>
         {/* pause-play-restart */}
-        <button className="control-btn cursor-pointer relative outline-1 outline-blue-500"
+        <button className="control-btn cursor-pointer relative"
           onClick={
             isLastVideo ? () => handleProcess('videoReset')
             : isPlaying ? () => handleProcess('pause')
