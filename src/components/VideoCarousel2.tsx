@@ -15,12 +15,6 @@ interface stateType {
   isLastVideo: boolean
 }
 
-const smallUpVidVw = 70;
-const defaultVidVw = 88;
-
-const vidPaddingL = 0;
-const vidPaddingR = 0;
-
 export default function VideoCarousel() {
   const videoRef = useRef<HTMLVideoElement[]>([]);
   const videoSpanRef = useRef<HTMLSpanElement[]>([]);
@@ -164,7 +158,7 @@ export default function VideoCarousel() {
   return (
     <>
       {/* The video carousel */}
-      <div id='carousel-tape' className="relative flex w-max left-1/2 -translate-x-[12.5%]">
+      <div id='carousel-tape' className="relative flex w-max carousel-tape-left">
         {hightlightsSlides.map((list, index) => (
           <div key={index} className="padded-video-container  px-4">
             <div key={index} className={`video-container flex-center shrink-0 bg-black rounded-3xl overflow-hidden`}>
