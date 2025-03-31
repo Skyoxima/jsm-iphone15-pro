@@ -76,17 +76,17 @@ export default function VideoCarousel() {
       let anim = gsap.to(innerSpan[videoID], {
         onUpdate: () => {
           const progress = Math.ceil(anim.progress() * 100);
-          
+
           //? I'm suspecting that this if check is put in here to avoid unnecessary updation per frame, only update per second
           // console.log(`${videoID}, Progress: ${progress} CurrProgress: ${currentProgess}`);
           if (progress !== currentProgess) {
             currentProgess = progress;
-            
+
             //* max width for progressing (grey), I've kept this different than the original video for consistency
             gsap.to(videoSpanRef.current[videoID], {
-              width: window.innerWidth < 480 ? '2rem' : '3rem',
+              width: window.innerWidth < 640 ? '1.5rem' : '3rem',
             })
-            
+
             // the span that progress (white)
             gsap.to(innerSpan[videoID], {
               width: `${currentProgess}%`,
@@ -99,7 +99,7 @@ export default function VideoCarousel() {
         onComplete: () => {
           if (isPlaying) {
             gsap.to(videoSpanRef.current[videoID], {
-              width: '12px'
+              width: window.innerWidth < 640 ? '6px' : '12px'
             })
             gsap.to(innerSpan[videoID], {
               backgroundColor: 'transparent'
@@ -158,13 +158,13 @@ export default function VideoCarousel() {
   return (
     <>
       {/* The video carousel */}
-      <div id='carousel-tape' className="relative flex w-max carousel-tape-left">
+      <div id='carousel-tape' className="relative flex w-max tape-left-40 sm:tape-left-35">
         {hightlightsSlides.map((list, index) => (
-          <div key={index} className="padded-video-container  px-4">
+          <div key={index} className="padded-video-container px-4">
             <div key={index} className={`video-container flex-center shrink-0 bg-black rounded-3xl overflow-hidden`}>
               <video
                 className={`video pointer-events-none`}
-                preload="auto" 
+                preload="auto"
                 playsInline={true}
                 muted
                 ref={(el: HTMLVideoElement) => { videoRef.current[index] = el }}
@@ -188,11 +188,16 @@ export default function VideoCarousel() {
 
       {/*>> Progress bar pill */}
       <div className="relative flex justify-center mt-10">
-        <div className="flex-center py-5 px-7 bg-zinc-800 backdrop-blur rounded-full">
+        <div className="flex-center py-2.5 sm:py-5 px-3.5 sm:px-7 bg-zinc-800 backdrop-blur rounded-full">
           {videoRef.current.map((_, i) => (
-            <span key={i} ref={(el: HTMLSpanElement) => { videoSpanRef.current[i] = el }}
-              className="relative size-3 mx-2 bg-zinc-300 rounded-full cursor-pointer">
-              <span className="absolute size-full rounded-full" ref={(el: HTMLSpanElement) => { videoInnerSpanRef.current[i] = el }}></span>
+            <span
+              key={i}
+              ref={(el: HTMLSpanElement) => { videoSpanRef.current[i] = el }}
+              className="relative size-1.5 sm:size-3 mx-2 bg-zinc-300 rounded-full cursor-pointer">
+              <span
+                className="absolute size-full rounded-full"
+                ref={(el: HTMLSpanElement) => { videoInnerSpanRef.current[i] = el }}>
+              </span>
             </span>
           ))}
         </div>
@@ -200,9 +205,9 @@ export default function VideoCarousel() {
         <button className="control-btn cursor-pointer relative"
           onClick={
             isLastVideo ? () => handleProcess('videoReset')
-            : isPlaying ? () => handleProcess('pause')
-            : () => handleProcess('play')}>
-          <img 
+              : isPlaying ? () => handleProcess('pause')
+                : () => handleProcess('play')}>
+          <img
             src={isLastVideo ? replayImg : isPlaying ? pauseImg : playImg}
             alt={isLastVideo ? 'Replay' : isPlaying ? 'Pause' : 'Play'}
             className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"

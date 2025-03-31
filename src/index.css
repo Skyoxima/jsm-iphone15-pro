@@ -152,6 +152,9 @@ canvas {
   @apply border-r-1 border-zinc-400;
 }
 
-.carousel-tape-left {
+@utility tape-left-35 {
   left: calc(50% - (35vw + 1rem));
+}
+@utility tape-left-40 {
+  left: calc(50% - (40vw + 1rem));
 }
