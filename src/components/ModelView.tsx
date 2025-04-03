@@ -16,9 +16,13 @@ interface ModelViewPropTypes {
   setRotState: Dispatch<SetStateAction<number>>
   size: string
   model: modelType
+  isInteracting: boolean
+  setIsInteracting: Dispatch<SetStateAction<boolean>>
 }
 
-function ModelView({index, groupRef, gsapType, controlRef, setRotState, size, model}: ModelViewPropTypes) {
+
+
+function ModelView({index, groupRef, gsapType, controlRef, setRotState, size, model, isInteracting, setIsInteracting}: ModelViewPropTypes) {
   return (
     <View
       index={index}
@@ -36,8 +40,13 @@ function ModelView({index, groupRef, gsapType, controlRef, setRotState, size, mo
         enableZoom={false}
         enablePan={false}
         rotateSpeed={0.4}
+        enabled={isInteracting}
         target={new THREE.Vector3(0, 0, 0)}
-        onEnd={() => setRotState(controlRef.current!.getAzimuthalAngle())}
+        onEnd={
+          () => {
+            setRotState(controlRef.current!.getAzimuthalAngle())
+          }
+        }
       />
 
       <group ref={groupRef} name={`${index === 1 ? 'small' : 'large'}`} position={[0, 0, 0]}>

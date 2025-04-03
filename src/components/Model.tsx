@@ -45,6 +45,9 @@ function Model() {
   const [smallRot, setSmallRot] = useState(0);
   const [largeRot, setLargeRot] = useState(0);
 
+  // touchscreen swipe tracking
+  const [isInteracting, setIsInteracting] = useState(false);
+
   // animating switching between the sizes
   const tl = gsap.timeline();
   useEffect(() => {
@@ -74,6 +77,8 @@ function Model() {
               setRotState={setSmallRot}
               model={model}
               size={size}
+              isInteracting={isInteracting}
+              setIsInteracting={setIsInteracting}
             />
             <ModelView 
               index={2}
@@ -83,6 +88,8 @@ function Model() {
               setRotState={setLargeRot}
               model={model}
               size={size}
+              isInteracting={isInteracting}
+              setIsInteracting={setIsInteracting}
             />
 
             <Canvas
