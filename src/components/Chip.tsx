@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
 import { animateScrollWithGSAP } from "../utils/animations";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 function Chip() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -33,10 +33,10 @@ function Chip() {
 
   return (
     <section className="common-padding" id="chip-section">
-      <div className="screen-max-width">
+      <div className="screen-max-width overflow-hidden">
         {/* Chip Img */}
-        <div id="chip" className="w-full flex-center my-20 overflow-hidden">
-          <img src={chipImg} alt="A17 Bionic Pro" width={180} height={180} />
+        <div id="chip" className="w-full flex-center my-20">
+          <img id="chipImg" src={chipImg} alt="A17 Bionic Pro" width={180} height={180} />
         </div>
 
         {/* Chip Description */}
