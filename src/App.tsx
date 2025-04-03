@@ -17,7 +17,7 @@ export default function App() {
       <Highlights2 />
       <Model />
       <Features />
-      <Chip />
+      {/* <Chip /> */}
       <Footer />
     </main>
   )
