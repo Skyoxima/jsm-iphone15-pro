@@ -14,10 +14,10 @@ export default function App() {
       <SmoothScroll />
       <Navbar />
       <Hero />
-      {/* <Highlights2 /> */}
+      <Highlights2 />
       <Model />
       <Features />
-      {/* <Chip /> */}
+      <Chip />
       <Footer />
     </main>
   )
