@@ -17,7 +17,7 @@ export function animateScrollWithGSAP(
       trigger: specialTarget || target,
       toggleActions: "restart reverse restart reverse",
       start: "top 85%",
-      markers: true,
+      // markers: true,
       ...scrollProps,
     },
   });
