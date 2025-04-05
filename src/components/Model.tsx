@@ -33,7 +33,6 @@ function Model() {
 
 
   // camera per size, 6.1", 6.7"'
-  // TODO: GIVE TYPES
   const cameraControlSmall = useRef<OrbitControlsImpl>(null);
   const cameraControlLarge = useRef<OrbitControlsImpl>(null);
 
@@ -59,6 +58,18 @@ function Model() {
   
   }, [size])
   
+  useGSAP(() => {
+    gsap.to(".color-select", {
+      scale: 1,
+      ease: 'power3.out'
+    })
+
+    gsap.to(`#color-select-${'\\' + model.color[0]}`, {
+      scale: 1.25,
+      ease: 'power3.out',
+    })
+  }, [model]);
+
 
   return (
     <section className="common-padding">
@@ -111,8 +122,9 @@ function Model() {
               <ul className="color-container">
                 {models.map((item, index) => (
                   <li 
-                  key={index} 
-                  className={`relative w-6 h-6 rounded-full mx-2 cursor-pointer`} 
+                  key={index}
+                  id={`color-select-${item.color[0]}`}
+                  className={`color-select relative w-6 h-6 rounded-full mx-2 cursor-pointer ${model.color[0] !== item.color[0] ? '' : 'rounded-outline-before'} border-color-[${item.color[0]}]`} 
                   style={{backgroundColor: item.color[0]}}
                   onClick={() => setModel(item)}
                   >    {/*! I think style is used here for dynamic application of colors that are coming from another JS file... other way would be to use @apply and custom predefined classes like how I'd done in Epoque Calendars! */}

@@ -20,19 +20,22 @@ function Chip() {
       opacity: 0,
       duration: 2,
       scale: 2,
-      ease: 'power2.inOut'
-    })
+      ease: 'power2.inOut',
+    }
+  )
 
     animateScrollWithGSAP('.g_fadeIn', {
       opacity: 1,
       y: 0,
       duration: 1,
-      ease: 'power2.inOut'
+      ease: 'power2.inOut',
     })
   }, [])
 
   return (
     <section className="common-padding" id="chip-section">
+      {/* Hidden overflow here fixes the chip scaling--overflow-x problem on mobiles but breaks the app on chrome mobile version (actual one, not the simulated one in the browser) */}
+      {/* This is due to Chrome and Firefox handling overflowing containers' layout separately (isolated/non-isolated) */}
       <div className="screen-max-width overflow-hidden">
         {/* Chip Img */}
         <div id="chip" className="w-full flex-center my-20">

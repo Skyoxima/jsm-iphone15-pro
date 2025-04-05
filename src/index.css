@@ -35,6 +35,10 @@ canvas {
   @apply flex items-center justify-center;
 }
 
+@utility rounded-outline-before {
+  @apply before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 before:w-[133%] before:h-[133%] before:border-2 before:rounded-full;
+}
+
 .nav-height {
   @apply h-[calc(100vh-60px)];
 }
@@ -121,10 +125,6 @@ canvas {
 
 .g_fadeIn {
   @apply opacity-0 translate-y-[100px];
-}
-
-.before-3D-color-select {
-  @apply before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 before:w-[125%] before:h-[125%] before:border-2 before:rounded-full;
 }
 
 .border-color-\[\#8F8A81\] {
