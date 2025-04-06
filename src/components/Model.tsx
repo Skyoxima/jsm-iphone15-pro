@@ -45,7 +45,7 @@ function Model() {
   const [largeRot, setLargeRot] = useState(0);
 
   // touchscreen swipe tracking
-  const [isInteracting, setIsInteracting] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(true);
 
   // animating switching between the sizes
   const tl = gsap.timeline();
@@ -106,7 +106,6 @@ function Model() {
             <Canvas
               id="phone3D"
               className="fixed! w-full h-[100vh] sm:h-full top-0 left-0 bottom-0 right-0 overflow-hidden pointer-events-none contain-strict will-change-transform"
-              // style={{position: "fixed", top: 0, left: 0, bottom: 0, right: 0, overflow: "hidden"}}
               eventSource={document.getElementById('root')!}
             >
               <View.Port />
