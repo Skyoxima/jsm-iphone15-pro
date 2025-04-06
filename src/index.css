@@ -36,7 +36,16 @@ canvas {
 }
 
 @utility rounded-outline-before {
-  @apply before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 before:w-[133%] before:h-[133%] before:border-2 before:rounded-full;
+  /* @apply before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 before:w-[133%] before:h-[133%] before:border-2 before:rounded-full; */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    translate: -50% -50%;
+    width: 133%; height: 133%;
+    border: 2px solid;
+    border-radius: 50%;
+  }
 }
 
 .nav-height {

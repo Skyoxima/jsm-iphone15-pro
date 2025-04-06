@@ -23,7 +23,7 @@ function ModelView({index, groupRef, gsapType, controlRef, setRotState, size, mo
     <View
       index={index}
       id={gsapType}
-      className={`absolute w-full h-full ${index === 2 ? '-right-full': ''}`}
+      className={`absolute w-full h-full ${index === 2 ? '-right-full': ''} cursor-grab`}
     >
       <ambientLight intensity={0.3} />
       <PerspectiveCamera makeDefault position={[0, 0, 4]} />
