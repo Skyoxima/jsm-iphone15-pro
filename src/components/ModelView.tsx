@@ -18,6 +18,8 @@ interface ModelViewPropTypes {
   model: modelType
 }
 
+
+
 function ModelView({index, groupRef, gsapType, controlRef, setRotState, size, model}: ModelViewPropTypes) {
   return (
     <View
@@ -37,7 +39,11 @@ function ModelView({index, groupRef, gsapType, controlRef, setRotState, size, mo
         enablePan={false}
         rotateSpeed={0.4}
         target={new THREE.Vector3(0, 0, 0)}
-        onEnd={() => setRotState(controlRef.current!.getAzimuthalAngle())}
+        onEnd={
+          () => {
+            setRotState(controlRef.current!.getAzimuthalAngle())
+          }
+        }
       />
 
       <group ref={groupRef} name={`${index === 1 ? 'small' : 'large'}`} position={[0, 0, 0]}>
