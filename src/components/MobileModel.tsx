@@ -3,7 +3,6 @@ import { useGSAP } from "@gsap/react";
 import MobileModelView from "./MobileModelView";
 import { useRef, useState, useEffect } from "react";
 import { yellowImg } from "../utils";
-import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
 import { models, sizes } from "../constants";
@@ -89,26 +88,31 @@ function MobileModel() {
 
         <div className="flex flex-col mt-5 items-center">
           <div className="relative w-[70%] h-[75vh] md:h-[90vh] overflow-hidden" ref={viewRef}>
-            <MobileModelView 
-              viewRef={viewRef}
-              controlRef={cameraControl}
-              model={model}
-              size={size}
-            />
-            <Canvas
-              id="phone3D"
-              className="absolute! w-full h-full top-0 left-0 pointer-events-none overflow-hidden"
-              eventSource={containerRef.current!}
-              eventPrefix="page"
-              dpr={[1, 1]}
-              camera={{ position: [0, 0, 4], fov: 50 }}
-              frameloop="demand"
-              onCreated={(state) => {
-                state.gl.localClippingEnabled = true;
-              }}
-            >
-              <View.Port />
-            </Canvas>
+            {/* Only render the 3D content when in view */}
+            {isInView ?
+              <>
+                <MobileModelView 
+                  viewRef={viewRef}
+                  controlRef={cameraControl}
+                  model={model}
+                  size={size}
+                />
+                <Canvas
+                  id="phone3D"
+                  className="absolute w-full h-full top-0 left-0 pointer-events-none overflow-hidden"
+                  eventSource={containerRef.current!}
+                  eventPrefix="page"
+                  dpr={[1, 1]}
+                  camera={{ position: [0, 0, 4], fov: 50 }}
+                  frameloop="demand"
+                  onCreated={(state) => {
+                    state.gl.localClippingEnabled = true;
+                  }}
+                >
+                  <View.Port />
+                </Canvas>
+              </> : <div className="w-full h-full bg-zinc-900"></div>
+            }
           </div>
 
           <div className="mx-auto w-full">

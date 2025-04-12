@@ -1,12 +1,11 @@
 import { PerspectiveCamera, View, OrbitControls } from "@react-three/drei"
 import Lights from "./Lights"
-import React, { SetStateAction, Suspense, Dispatch, useEffect, useRef } from "react"
+import React, {Suspense, useEffect, useRef } from "react"
 import IPhone from "./IPhone"
 import * as THREE from 'three';
 import Loader from "./Loader"
 import { modelType } from "./Model";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import { useFrame } from "@react-three/fiber";
 
 interface MobileModelViewPropTypes {
   viewRef: React.RefObject<HTMLDivElement | null>
@@ -22,6 +21,8 @@ function MobileModelView({controlRef, size, model, viewRef}: MobileModelViewProp
   const scrollingRef = useRef<boolean>(false),
         lastScrollTime = useRef(0);
   
+
+  // used to disable controls on the 3D model when scrolling, can be lifted up to MobileModel for dpr controls too...
   useEffect(() => {
     const handleScroll = () => {
       scrollingRef.current = true;
@@ -56,6 +57,7 @@ function MobileModelView({controlRef, size, model, viewRef}: MobileModelViewProp
         enableZoom={false}
         enablePan={false}
         rotateSpeed={0.4}
+        enabled={!scrollingRef.current}
         target={new THREE.Vector3(0, 0, 0)}
       />
 
