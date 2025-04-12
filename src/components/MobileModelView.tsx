@@ -1,29 +1,48 @@
 import { PerspectiveCamera, View, OrbitControls } from "@react-three/drei"
 import Lights from "./Lights"
-import React, { SetStateAction, Suspense, Dispatch } from "react"
+import React, { SetStateAction, Suspense, Dispatch, useEffect, useRef } from "react"
 import IPhone from "./IPhone"
 import * as THREE from 'three';
 import Loader from "./Loader"
 import { modelType } from "./Model";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-
+import { useFrame } from "@react-three/fiber";
 
 interface MobileModelViewPropTypes {
-  gsapType: string
+  viewRef: React.RefObject<HTMLDivElement | null>
   controlRef: React.RefObject<OrbitControlsImpl | null>
-  setRotState: Dispatch<SetStateAction<number>>
   size: string
   model: modelType
-  isInteracting: boolean
-  setIsInteracting: Dispatch<SetStateAction<boolean>>
 }
 
 
 
-function MobileModelView({gsapType, controlRef, setRotState, size, model, isInteracting, setIsInteracting}: MobileModelViewPropTypes) {
+function MobileModelView({controlRef, size, model, viewRef}: MobileModelViewPropTypes) {
+  
+  const scrollingRef = useRef<boolean>(false),
+        lastScrollTime = useRef(0);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      scrollingRef.current = true;
+      lastScrollTime.current = Date.now();
+      
+      // Reset the scrolling flag after scrolling stops
+      setTimeout(() => {
+        if (Date.now() - lastScrollTime.current >= 100) {
+          scrollingRef.current = false;
+        }
+      }, 150);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <View
-      id={gsapType}
+      id="mobile-view"
+      track={viewRef as React.RefObject<HTMLElement>}
       className={`absolute w-full h-full`}
     >
       <ambientLight intensity={0.3} />
@@ -37,13 +56,7 @@ function MobileModelView({gsapType, controlRef, setRotState, size, model, isInte
         enableZoom={false}
         enablePan={false}
         rotateSpeed={0.4}
-        enabled={isInteracting}
         target={new THREE.Vector3(0, 0, 0)}
-        onEnd={
-          () => {
-            setRotState(controlRef.current!.getAzimuthalAngle())
-          }
-        }
       />
 
       <Suspense fallback={<Loader />}>

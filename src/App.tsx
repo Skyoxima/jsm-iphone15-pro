@@ -32,14 +32,13 @@ export default function App() {
   return (
     <main className="bg-black">
       <SmoothScroll />
-      {/* <Navbar />
+      <Navbar />
       <Hero />
-      <Highlights2 /> */}
+      <Highlights2 />
       {device === 'mobile' || device === 'tablet' ? <MobileModel /> : <Model />}
-      {/* <Model /> */}
-      {/* <Features />
+      <Features />
       <Chip />
-      <Footer /> */}
+      <Footer />
     </main>
   )
 }

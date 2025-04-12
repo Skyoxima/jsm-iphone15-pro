@@ -7,7 +7,9 @@ import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
 import { models, sizes } from "../constants";
-import { animateScrollWithGSAP, animateWithGSAPTimeline } from "../utils/animations";
+import { animateScrollWithGSAP } from "../utils/animations";
+
+// this is for the type declarations
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 export interface modelType {
@@ -23,24 +25,49 @@ function MobileModel() {
       y: 0
     })
   }, []);
-
+  
   const [size, setSize] = useState<string>('small');
+
+  const [isInView, setIsInView] = useState(false);
+
+  // model in use's properties
   const [model, setModel] = useState<modelType>({
     title: 'iPhone 15 Pro in Natural Titanium',
     color: ['#8F8A81', '#FFE7B9', '#6F6C64'],
     img: yellowImg
   })
-
-
-  // camera per size, 6.1", 6.7"'
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const viewRef = useRef<HTMLDivElement>(null);
   const cameraControl = useRef<OrbitControlsImpl>(null);
 
-  // rotation tracking
-  const [rotation, setRotation] = useState(0);
+  // Set up intersection observer to track if section is in view
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Update state when visibility changes
+        setIsInView(entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1, // Consider visible when 10% is in view
+      }
+    );
+    
+    observer.observe(containerRef.current);
+    
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
 
-  // touchscreen swipe tracking
-  const [isInteracting, setIsInteracting] = useState(true);
   
+  // selected color button animation
   useGSAP(() => {
     gsap.to(".color-select", {
       scale: 1,
@@ -54,28 +81,31 @@ function MobileModel() {
   }, [model]);
 
   return (
-    <section className="common-padding">
+    <section className="common-padding" ref={containerRef}>
       <div id="section-content-model" className="">
         <h1 id="heading" className="section-heading screen-max-width">
           Take a closer look.
         </h1>
 
         <div className="flex flex-col mt-5 items-center">
-          <div className="relative w-full h-[75vh] md:h-[90vh] overflow-hidden">
+          <div className="relative w-[70%] h-[75vh] md:h-[90vh] overflow-hidden" ref={viewRef}>
             <MobileModelView 
-              gsapType="view1"
+              viewRef={viewRef}
               controlRef={cameraControl}
-              setRotState={setRotation}
               model={model}
               size={size}
-              isInteracting={isInteracting}
-              setIsInteracting={setIsInteracting}
             />
-
             <Canvas
               id="phone3D"
-              className="fixed! w-full h-[100vh] sm:h-full top-0 left-0 bottom-0 right-0 overflow-hidden pointer-events-none contain-strict will-change-transform"
-              eventSource={document.getElementById('root')!}
+              className="absolute! w-full h-full top-0 left-0 pointer-events-none overflow-hidden"
+              eventSource={containerRef.current!}
+              eventPrefix="page"
+              dpr={[1, 1]}
+              camera={{ position: [0, 0, 4], fov: 50 }}
+              frameloop="demand"
+              onCreated={(state) => {
+                state.gl.localClippingEnabled = true;
+              }}
             >
               <View.Port />
             </Canvas>
