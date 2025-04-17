@@ -161,6 +161,20 @@ canvas {
   @apply border-r-1 border-zinc-400;
 }
 
+.loader-gradient {
+  @apply bg-gradient-to-r from-zinc-950 via-zinc-900/66 to-zinc-950 from-45% via-50% to-55%;
+  background-size: 200%;
+  animation: background-swipe 1.5s linear 0s infinite;
+}
+
+@keyframes background-swipe {
+  from {
+    background-position: 200% 0%;
+  } to {
+    background-position: 0%;
+  }
+}
+
 @utility tape-left-35 {
   left: calc(50% - (35vw + 1rem));
 }
